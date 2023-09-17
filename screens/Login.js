@@ -13,9 +13,12 @@ import { useNavigation } from '@react-navigation/native';
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-
   const [image, setImage] = useState(null);
+
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [imageError, setImageError] = useState('');
+
   const navigation = useNavigation();
 
   const pickImage = async () => {
@@ -26,25 +29,38 @@ const LoginScreen = () => {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImage(result.assets[0].uri);
+      setImageError('');
     }
   };
 
-
-
   const handleLogin = () => {
-    // if (email === 'user@example.com' && password === 'password') {
-        navigation.navigate('Home', {
-            email,
-            password,
-            imageUri: image,
-          });
-    // } else {
-    //   console.log('Login failed');
-    // }
+    if (!email) {
+      setEmailError('! Email is required !');
+    } else {
+      setEmailError('');
+    }
+
+    if (!password) {
+      setPasswordError('! Password is required !');
+    } else {
+      setPasswordError('');
+    }
+
+    if (!image) {
+      setImageError('! Profile picture is required !');
+    } else {
+      setImageError('');
+    }
+
+    if (email && password && image) {
+      navigation.navigate('Home', {
+        email,
+        password,
+        imageUri: image,
+      });
+    }
   };
 
   return (
@@ -56,21 +72,30 @@ const LoginScreen = () => {
           <Text style={styles.addPhotoText}>Add Photo</Text>
         )}
       </TouchableOpacity>
+      {imageError ? (
+        <Text style={styles.errorText}>{imageError}</Text>
+      ) : null}
       <TextInput
         style={styles.input}
         placeholder="Email"
-        autoCapitalize='none'
+        autoCapitalize="none"
         value={email}
         onChangeText={(text) => setEmail(text)}
       />
+      {emailError ? (
+        <Text style={styles.errorText}>{emailError}</Text>
+      ) : null}
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
-        autoCapitalize='none'
+        autoCapitalize="none"
         value={password}
         onChangeText={(text) => setPassword(text)}
       />
+      {passwordError ? (
+        <Text style={styles.errorText}>{passwordError}</Text>
+      ) : null}
       <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
@@ -114,6 +139,10 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     textAlign: 'center',
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
 
