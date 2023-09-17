@@ -1,14 +1,21 @@
-import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import Starter from './screens/Starter'
-import LoginScreen from './Login'
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-const App = () => {
+import LoginScreen from './screens/Login';
+import Starter from './screens/Starter';
+
+const Stack = createStackNavigator();
+
+const AppNavigator = () => {
   return (
-     <LoginScreen />
-  )
-}
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login">
+        <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Home" component={Starter} options={{headerShown: false}}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-export default App
-
-const styles = StyleSheet.create({})
+export default AppNavigator;
