@@ -5,7 +5,7 @@ import LoginScreen from './Login'
 
 const App = () => {
   return (
-     <Starter />
+     <LoginScreen />
   )
 }
 
