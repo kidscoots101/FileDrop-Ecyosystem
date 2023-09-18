@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
+import { TouchableOpacity } from "react-native-web";
 
 export default function Starter({ route }) {
   const [db, setDb] = useState(SQLite.openDatabase("example.db"));
@@ -177,13 +178,18 @@ export default function Starter({ route }) {
     });
   };
 
-  const { email, password, imageUri } = route.params;
+  const { email, password, imageUri, username } = route.params;
 
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <Text style={styles.headerText}>FileDrop</Text>
+        {/* <Text style={styles.headerText}>FileDrop</Text> */}
+        <Text style={styles.headerText}>Hello 👋, {"\n"}{username}</Text>
         <Image style={styles.profileIcon} source={{ uri: imageUri }} />
+      </View>
+      <View style={{backgroundColor: '#6861D5', borderRadius: 18, marginTop: 50, alignSelf: 'center', height: '22%', width: '90%'}}>
+        <Text style={{color: 'white', fontWeight: '600', fontSize: 18, margin: 25}}>File Transfer</Text>
+        <Text style={{color: 'white', fontSize: 18, marginLeft: 25}}>Transfer files in a quick way.</Text>
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <Button title="Export Db" onPress={exportDb} />

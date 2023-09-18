@@ -14,10 +14,13 @@ const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [image, setImage] = useState(null);
+  const [username, setusername] = useState('');
+
 
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
   const [imageError, setImageError] = useState('');
+  const [usernameError, setusernameError] = useState('')
 
   const navigation = useNavigation();
 
@@ -53,12 +56,18 @@ const LoginScreen = () => {
     } else {
       setImageError('');
     }
+    if (!username) {
+      setusernameError('! Username required !')
+    } else {
+      setusernameError('')
+    }
 
     if (email && password && image) {
       navigation.navigate('Home', {
         email,
         password,
         imageUri: image,
+        username
       });
     }
   };
@@ -74,6 +83,16 @@ const LoginScreen = () => {
       </TouchableOpacity>
       {imageError ? (
         <Text style={styles.errorText}>{imageError}</Text>
+      ) : null}
+       <TextInput
+        style={styles.input}
+        placeholder="Username"
+        autoCapitalize="none"
+        value={username}
+        onChangeText={(text) => setusername(text)}
+      />
+      {usernameError ? (
+        <Text style={styles.errorText}>{usernameError}</Text>
       ) : null}
       <TextInput
         style={styles.input}
