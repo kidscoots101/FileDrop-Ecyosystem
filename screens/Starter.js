@@ -7,13 +7,13 @@ import {
   Button,
   Platform,
   Image,
+  TouchableOpacity
 } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { useState, useEffect } from "react";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
-import { TouchableOpacity } from "react-native-web";
 
 export default function Starter({ route }) {
   const [db, setDb] = useState(SQLite.openDatabase("example.db"));
@@ -188,12 +188,20 @@ export default function Starter({ route }) {
         <Image style={styles.profileIcon} source={{ uri: imageUri }} />
       </View>
       <View style={{backgroundColor: '#6861D5', borderRadius: 18, marginTop: 50, alignSelf: 'center', height: '22%', width: '90%'}}>
-        <Text style={{color: 'white', fontWeight: '600', fontSize: 18, margin: 25}}>File Transfer</Text>
-        <Text style={{color: 'white', fontSize: 18, marginLeft: 25}}>Transfer files in a quick way.</Text>
+        <Text style={{color: 'white', fontWeight: '600', fontSize: 20, margin: 25}}>File Transfer</Text>
+        <Text style={{color: 'white', fontSize: 19, marginLeft: 25}}>Transfer files in a quick way.</Text>
+    <View style={{flexDirection: 'row', alignSelf: 'center', marginTop: 50}}>
+        <TouchableOpacity onPress={importDb} style={styles.transferButton}>
+            <Text style={{color: 'white', fontSize: 16}}>Send</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={exportDb} style={[styles.transferButton, {marginLeft: 20}]}>
+            <Text style={{color: 'white', fontSize: 16}}>Receive</Text>
+        </TouchableOpacity>
+        </View>
+
+        
       </View>
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Button title="Export Db" onPress={exportDb} />
-        <Button title="Import Db" onPress={importDb} />
         <View style={styles.namesContainer}>{showNames()}</View>
       </View>
       <StatusBar style="auto" />
@@ -221,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   headerText: {
-    fontWeight: "bold",
+    fontWeight: "700",
     fontSize: 35,
     alignSelf: "flex-start",
     flex: 1,
@@ -234,4 +242,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginRight: 35,
   },
+  transferButton: {
+    backgroundColor: '#8178E1', width: '35%', alignItems: 'center', borderRadius: 18, paddingVertical: 10
+  }
 });
