@@ -14,6 +14,8 @@ import { useState, useEffect } from "react";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import * as DocumentPicker from "expo-document-picker";
+import { FlatList } from "react-native-gesture-handler";
+import Drive from '../assets/google-drive.png'
 
 export default function Starter({ route }) {
   const [db, setDb] = useState(SQLite.openDatabase("example.db"));
@@ -177,6 +179,34 @@ export default function Starter({ route }) {
       );
     });
   };
+  const DATA_ITEMS = [
+    {
+      title: "Google Drive",
+      logo: Drive
+    },
+    {
+      title: "Google Drive",
+      logo: Drive
+    },
+    {
+      title: "Google Drive",
+      logo: Drive
+    },
+    {
+      title: "Google Drive",
+      logo: Drive
+    },
+  
+  ]
+
+  const CloudItem = ({title, logo}) => {
+    return (
+      <View style={styles.cloudItem}>
+      <Image source={logo} style={styles.logo} resizeMode="contain" />
+      <Text style={styles.title}>{title}</Text>
+    </View>
+    )
+  }
 
   const { email, password, imageUri, username } = route.params;
 
@@ -201,9 +231,14 @@ export default function Starter({ route }) {
 
         
       </View>
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
         <View style={styles.namesContainer}>{showNames()}</View>
-      </View>
+        <Text style={{alignSelf: 'flex-start', margin: 25, fontWeight: 'bold', fontSize: 30}}>Cloud Apps</Text>
+        <FlatList 
+        renderItem={({item}) => <CloudItem title={item.title} logo={item.logo} />}
+        data={DATA_ITEMS}
+        horizontal={true} 
+        style={{flex:1, marginLeft: 10, marginRight: 25}}
+        />
       <StatusBar style="auto" />
     </View>
   );
@@ -244,5 +279,23 @@ const styles = StyleSheet.create({
   },
   transferButton: {
     backgroundColor: '#8178E1', width: '35%', alignItems: 'center', borderRadius: 18, paddingVertical: 10
-  }
+  },
+  cloudItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    maxHeight: '20%',
+    backgroundColor: '#dadada',
+    borderRadius: 10, 
+    marginLeft: 15
+  },
+  logo: {
+    height: 50,
+    width: 50,
+    marginRight: 10,
+  },
+  title: {
+    fontWeight: '500',
+    fontSize: 15,
+  },
 });
